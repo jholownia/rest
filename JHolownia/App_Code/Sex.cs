@@ -5,7 +5,7 @@ using System.Web;
 using System.Runtime.Serialization;
 
 /// <summary>
-/// Summary description for Sex
+/// Represents sex. Typically male or female.
 /// </summary>
 [DataContract]
 public class Sex

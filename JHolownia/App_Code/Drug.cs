@@ -5,7 +5,7 @@ using System.Web;
 using System.Runtime.Serialization;
 
 /// <summary>
-/// Summary description for Drug
+/// Represents a drug.
 /// </summary>
 /// [DataContract]
 public class Drug

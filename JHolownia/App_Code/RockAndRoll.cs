@@ -5,7 +5,7 @@ using System.Web;
 using System.Runtime.Serialization;
 
 /// <summary>
-/// Summary description for RockAndRoll
+/// Represents a Rock and Roll song.
 /// </summary>
 /// [DataContract]
 public class RockAndRoll
