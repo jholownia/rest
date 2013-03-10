@@ -5,16 +5,17 @@ using System.Web;
 using System.Data;
 using System.Web.Configuration;
 using System.Data.SqlClient;
+using System.Reflection;
 
 
-// add try catch and/or using
+// add try catch and/or using where necessary
 
 /// <summary>
 /// Summary description for DatabaseHandler
 /// </summary>
 public class DatabaseHandler
 {
-    private static string ConnectionString_ = WebConfigurationManager.ConnectionStrings["SOFT338_ConnectionString"].ConnectionString;
+    private static string _ConnectionString = WebConfigurationManager.ConnectionStrings["SOFT338_ConnectionString"].ConnectionString;
     public static string LastError = "";
 
 	public DatabaseHandler()
@@ -24,12 +25,12 @@ public class DatabaseHandler
 
     // Sex methods
     //--------------------------------------------------------------------
-                    
+
     public static List<Sex> getAllSex()
     {
         List<Sex> sexList = new List<Sex>();
 
-        SqlConnection con = new SqlConnection(ConnectionString_);
+        SqlConnection con = new SqlConnection(_ConnectionString);
 
         SqlCommand cmd = new SqlCommand("SELECT * FROM Sex", con);
 
@@ -49,10 +50,30 @@ public class DatabaseHandler
         return sexList;
     }
 
-    public static int insertNewSex(Sex sex)
+    public static Sex getSex(int id)
     {
-        // create new connection using the connection string in web.config
-        SqlConnection con = new SqlConnection(ConnectionString_);
+        SqlConnection con = new SqlConnection(_ConnectionString);
+
+        SqlCommand cmd = new SqlCommand("SELECT * FROM Sex WHERE SexID='" + id.ToString() + "'", con);
+
+        Sex sex = null;
+
+        using (con)
+        {
+            con.Open();
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            reader.Read();
+            sex = new Sex((string)reader["Name"], (string)reader["Description"]);
+        }
+
+        return sex;
+    }
+
+    public static int insertNewSex(Sex sex)
+    {       
+        SqlConnection con = new SqlConnection(_ConnectionString);
         
         SqlCommand cmd = new SqlCommand("INSERT into Sex (Name, Description) VALUES('"+sex.Name+"', '" +sex.Description+"'); " + "SELECT CAST(Scope_Identity() as int)", con);
         Int32 returnID = 0;
@@ -68,17 +89,57 @@ public class DatabaseHandler
                 LastError = ex.Message;
             }
         }
+
         return returnID;
     }
 
-    public static int updateSex(Sex sex)
+    public static int updateSex(int id, Sex sex)
     {
-        return 0;
+        SqlConnection con = new SqlConnection(_ConnectionString);
+
+        SqlCommand cmd = new SqlCommand("UPDATE Sex SET Name='" + sex.Name + "', Description='" + sex.Description + "'WHERE SexID='" + id.ToString() + "'", con);
+
+        Sex oldSex = getSex(id);
+        int returnID = 0;
+        
+        using (con)
+        {
+            try
+            {
+                con.Open();
+                returnID = (int)cmd.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                LastError = ex.Message;
+            }           
+        }
+
+        return returnID;
     }
 
-    public static int deleteSex(Sex sex)
+    public static int deleteSex(int id)
     {
-        return 0;
+        SqlConnection con = new SqlConnection(_ConnectionString);
+
+        SqlCommand cmd = new SqlCommand("DELETE FROM Sex WHERE SexID='" + id.ToString() + "'", con);
+
+        int returnID = 0;
+
+        using (con)
+        {
+            try
+            {
+                con.Open();
+                returnID = (Int32)cmd.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                LastError = ex.Message;
+            }             
+        }
+
+        return returnID;
     }
     
     // Drugs methods

@@ -46,7 +46,7 @@ public class RockAndRoll
         set { date = value; }
     }
 
-    // YouTube link
+    // YouTube link    
     private string link;
     [DataMember]
     public string Link
@@ -55,7 +55,7 @@ public class RockAndRoll
         set { link = value; }
     }
 
-	// RockAndRoll constructor
+	// RockAndRoll constructor    
     public RockAndRoll(string title, string artist, string album, DateTime date, string link)
 	{
         this.title = title;
