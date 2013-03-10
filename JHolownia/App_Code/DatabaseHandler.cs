@@ -347,7 +347,7 @@ public class DatabaseHandler
 
                 while (reader.Read())
                 {
-                    RockAndRoll r = new RockAndRoll((string)reader["Title"], (string)reader["Artist"], (string)reader["Album"], (DateTime)reader["Date"], (string)reader["Link"]);
+                    RockAndRoll r = new RockAndRoll((string)reader["Title"], (string)reader["Artist"], (string)reader["Album"], (int)reader["Year"], (string)reader["Link"]);
                     rnrList.Add(r);
                 }
             }
@@ -380,7 +380,7 @@ public class DatabaseHandler
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 reader.Read();
-                rnr = new RockAndRoll((string)reader["Title"], (string)reader["Artist"], (string)reader["Album"], (DateTime)reader["Date"], (string)reader["Link"]);
+                rnr = new RockAndRoll((string)reader["Title"], (string)reader["Artist"], (string)reader["Album"], (int)reader["Year"], (string)reader["Link"]);
             }
             catch (System.Exception ex)
             {
@@ -398,8 +398,8 @@ public class DatabaseHandler
     {
         SqlConnection con = new SqlConnection(_ConnectionString);
 
-        SqlCommand cmd = new SqlCommand("INSERT into Rockandroll (Title, Artist, Album, Date, Link) VALUES('" + rnr.Title + "', '" + rnr.Artist + "', '" + 
-            rnr.Album + "', '" + rnr.Date + "', '" + rnr.Link + "'); " + "SELECT CAST(Scope_Identity() as int)", con);
+        SqlCommand cmd = new SqlCommand("INSERT into Rockandroll (Title, Artist, Album, Year, Link) VALUES('" + rnr.Title + "', '" + rnr.Artist + "', '" + 
+            rnr.Album + "', '" + rnr.Year + "', '" + rnr.Link + "'); " + "SELECT CAST(Scope_Identity() as int)", con);
 
         Int32 returnID = 0;
 
@@ -426,7 +426,7 @@ public class DatabaseHandler
     {
         SqlConnection con = new SqlConnection(_ConnectionString);
 
-        SqlCommand cmd = new SqlCommand("UPDATE Rockandroll SET Title='" + rnr.Title + "', Artist='" + rnr.Artist + "', Album='" + rnr.Album + "', Date='" + rnr.Date + "', Link='" + rnr.Link + "'WHERE RockAndRollID='" + id.ToString() + "'", con);
+        SqlCommand cmd = new SqlCommand("UPDATE Rockandroll SET Title='" + rnr.Title + "', Artist='" + rnr.Artist + "', Album='" + rnr.Album + "', Year='" + rnr.Year + "', Link='" + rnr.Link + "'WHERE RockAndRollID='" + id.ToString() + "'", con);
 
         RockAndRoll oldRnr = getRockAndRoll(id);
         int returnID = 0;

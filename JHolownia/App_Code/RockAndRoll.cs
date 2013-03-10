@@ -38,12 +38,12 @@ public class RockAndRoll
     }
     
     // Date
-    private DateTime date;
+    private int year;
     [DataMember]
-    public System.DateTime Date
+    public int Year
     {
-        get { return date; }
-        set { date = value; }
+        get { return year; }
+        set { year = value; }
     }
 
     // YouTube link    
@@ -56,12 +56,12 @@ public class RockAndRoll
     }
 
 	// RockAndRoll constructor    
-    public RockAndRoll(string title, string artist, string album, DateTime date, string link)
+    public RockAndRoll(string title, string artist, string album, int year, string link)
 	{
         this.title = title;
         this.artist = artist;
         this.album = album;
-        this.date = date;
+        this.year = year;
         this.link = link;
 	}
 }
