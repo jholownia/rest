@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 /// <summary>
 /// Represents a drug.
 /// </summary>
-/// [DataContract]
+[DataContract]
 public class Drug
 {
     // Name

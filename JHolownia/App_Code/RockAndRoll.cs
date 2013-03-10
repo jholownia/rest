@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 /// <summary>
 /// Represents a Rock and Roll song.
 /// </summary>
-/// [DataContract]
+[DataContract]
 public class RockAndRoll
 {
     // Title
