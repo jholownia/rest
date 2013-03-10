@@ -54,7 +54,7 @@ public class HttpHandler : IHttpHandler
                         _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(drugsItemTemplate, new HandleRequest(processDrugsItem)));
 
                         // RockAndRoll
-                        UriTemplate rockandrollTemplate = new UriTemplate(request.ApplicationPath + "/v1/RockAndRoll/{rockAndRollID}");
+                        UriTemplate rockandrollTemplate = new UriTemplate(request.ApplicationPath + "/v1/RockAndRoll");
                         UriTemplate rockandrollItemTemplate = new UriTemplate(request.ApplicationPath + "/v1/RockAndRoll/{rockAndRollID}");
                         _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(rockandrollTemplate, new HandleRequest(processRockAndRoll)));
                         _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(rockandrollItemTemplate, new HandleRequest(processRockAndRollItem)));
