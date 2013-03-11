@@ -58,6 +58,40 @@ public class HttpHandler : IHttpHandler
                         UriTemplate rockandrollItemTemplate = new UriTemplate(request.ApplicationPath + "/v1/RockAndRoll/{rockAndRollID}");
                         _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(rockandrollTemplate, new HandleRequest(processRockAndRoll)));
                         _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(rockandrollItemTemplate, new HandleRequest(processRockAndRollItem)));
+
+                        // Uri templates redirection
+
+                        // Sex
+                        sexTemplate = new UriTemplate(request.ApplicationPath + "/Sex");
+                        sexItemTemplate = new UriTemplate(request.ApplicationPath + "/Sex/{SexID}");
+                        _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(sexTemplate, new HandleRequest(processSex)));
+                        _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(sexItemTemplate, new HandleRequest(processSexItem)));
+                        sexTemplate = new UriTemplate(request.ApplicationPath + "/Sex/");
+                        sexItemTemplate = new UriTemplate(request.ApplicationPath + "/Sex/{SexID}/");
+                        _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(sexTemplate, new HandleRequest(processSex)));
+                        _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(sexItemTemplate, new HandleRequest(processSexItem)));
+
+                        // Drugs
+                        drugsTemplate = new UriTemplate(request.ApplicationPath + "/Drugs");
+                        drugsItemTemplate = new UriTemplate(request.ApplicationPath + "/Drugs/{DrugID}");
+                        _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(drugsTemplate, new HandleRequest(processDrugs)));
+                        _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(drugsItemTemplate, new HandleRequest(processDrugsItem)));
+                        drugsTemplate = new UriTemplate(request.ApplicationPath + "/Drugs/");
+                        drugsItemTemplate = new UriTemplate(request.ApplicationPath + "/Drugs/{DrugID}/");
+                        _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(drugsTemplate, new HandleRequest(processDrugs)));
+                        _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(drugsItemTemplate, new HandleRequest(processDrugsItem)));
+
+
+                        // RockAndRoll
+                        rockandrollTemplate = new UriTemplate(request.ApplicationPath + "/RockAndRoll");
+                        rockandrollItemTemplate = new UriTemplate(request.ApplicationPath + "/RockAndRoll/{rockAndRollID}");
+                        _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(rockandrollTemplate, new HandleRequest(processRockAndRoll)));
+                        _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(rockandrollItemTemplate, new HandleRequest(processRockAndRollItem)));
+                        rockandrollTemplate = new UriTemplate(request.ApplicationPath + "/RockAndRoll/");
+                        rockandrollItemTemplate = new UriTemplate(request.ApplicationPath + "/RockAndRoll/{rockAndRollID}/");
+                        _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(rockandrollTemplate, new HandleRequest(processRockAndRoll)));
+                        _templateTable.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(rockandrollItemTemplate, new HandleRequest(processRockAndRollItem)));
+
                     }
                 }
             }
@@ -95,8 +129,7 @@ public class HttpHandler : IHttpHandler
 
     // Http response codes
     //--------------------------------------------------------------------
-    #region Http responses
-    
+       
     /// <summary>
     /// Returns HTTP status 200 - OK
     /// </summary>
@@ -141,8 +174,7 @@ public class HttpHandler : IHttpHandler
     {
         context.Response.StatusCode = (Int32)HttpStatusCode.Created;
     }
-    #endregion
-
+    
     // Sex methods
     //--------------------------------------------------------------------
     #region Sex methods
@@ -225,6 +257,11 @@ public class HttpHandler : IHttpHandler
         context.Response.ContentType = "application/json";
         DataContractJsonSerializer jsonData = new DataContractJsonSerializer(typeof(Sex));
         Sex sex = DatabaseHandler.getSex((int)context.Items["SexID"]);
+        if (sex == null)
+        {
+            dispatchNotFound(context);
+            return;
+        }
         jsonData.WriteObject(outputStream, sex);
     }
 
@@ -374,6 +411,11 @@ public class HttpHandler : IHttpHandler
         context.Response.ContentType = "application/json";
         DataContractJsonSerializer jsonData = new DataContractJsonSerializer(typeof(Drug));
         Drug drug = DatabaseHandler.getDrug((int)context.Items["DrugID"]);
+        if (drug == null)
+        {
+            dispatchNotFound(context);
+            return;
+        }
         jsonData.WriteObject(outputStream, drug);
     }
 
@@ -522,6 +564,11 @@ public class HttpHandler : IHttpHandler
         context.Response.ContentType = "application/json";
         DataContractJsonSerializer jsonData = new DataContractJsonSerializer(typeof(RockAndRoll));
         RockAndRoll rockAndRoll = DatabaseHandler.getRockAndRoll((int)context.Items["rockAndRollID"]);
+        if (rockAndRoll == null)
+        {
+            dispatchNotFound(context);
+            return;
+        }
         jsonData.WriteObject(outputStream, rockAndRoll);
     }
 
